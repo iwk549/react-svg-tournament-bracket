@@ -97,12 +97,11 @@ const SingleTeam = ({
   };
 
   const otherTeam = team === "home" ? "away" : "home";
-  const isWinner =
-    match.matchAccepted === 1
-      ? match[team + "TeamGoals"] > match[otherTeam + "TeamGoals"] ||
-        (match[team + "TeamGoals"] === match[otherTeam + "TeamGoals"] &&
-          match[team + "TeamPKs"] > match[otherTeam + "TeamPKs"])
-      : false;
+  const isWinner = match.matchAccepted
+    ? match[team + "TeamScore"] > match[otherTeam + "TeamScore"] ||
+      (match[team + "TeamScore"] === match[otherTeam + "TeamScore"] &&
+        match[team + "TeamPKs"] > match[otherTeam + "TeamPKs"])
+    : false;
 
   const getLineText = () => {
     const teamName = match[team + "TeamName"];
@@ -114,9 +113,9 @@ const SingleTeam = ({
         ? teamName
         : teamAbbreviation;
 
-    let goals = match.matchAccepted
-      ? `${match[team + "TeamGoals"]}${
-          match[team + "TeamGoals"] === match[otherTeam + "TeamGoals"]
+    let goals = match.matchComplete
+      ? `${match[team + "TeamScore"]}${
+          match[team + "TeamScore"] === match[otherTeam + "TeamScore"]
             ? ` (${match[team + "TeamPKs"]})`
             : ""
         }`
@@ -166,7 +165,7 @@ const SingleTeam = ({
         <image
           href={match[team + "TeamLogo"]}
           x={
-            textAnchor == "middle"
+            textAnchor === "middle"
               ? offsets.text
               : X + (hasLogo ? (textAnchor === "start" ? 0 : -20) : 0)
           }

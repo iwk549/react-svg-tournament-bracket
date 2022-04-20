@@ -23,6 +23,7 @@ const SingleMatch = ({
   popColor,
   lineColor,
   dateTimeFormatter,
+  displayMatchNumber,
 }) => {
   const handleSelectMatch = () => {
     onSelectMatch(match);
@@ -67,6 +68,8 @@ const SingleMatch = ({
                 height={matchHeight}
                 onSelectMatch={onSelectMatch ? handleSelectMatch : null}
                 dateTimeFormatter={dateTimeFormatter}
+                displayMatchNumber={displayMatchNumber}
+                textColor={textColor}
               />
             )}
           </React.Fragment>

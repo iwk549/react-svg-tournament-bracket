@@ -14,9 +14,7 @@ const BracketFinal = ({
   header,
   width,
   onSelectMatch,
-  webpage,
   textColor,
-  backgroundColor,
   popColor,
   showFullTeamNames,
 }) => {
@@ -45,7 +43,6 @@ const BracketFinal = ({
         isFinal={true}
         matchHeight={bracketSize.matchHeight}
         onSelectMatch={onSelectMatch}
-        webpage={webpage}
         showFullTeamNames={showFullTeamNames}
       />
       {/* top */}

@@ -17,12 +17,15 @@ const PlayoffBracketCanvas = ({
   popColor,
   lineColor,
   dateTimeFormatter,
+  displayMatchNumber = true,
   width,
   height,
   matchHeight,
-  matchKeyCreator = (m) => m._id,
+  matchKeyCreator = (m) => String(m.round) + String(m.matchNumber),
+  selectedBracket = "main",
+  emptyBracketComponent,
+  showFullTeamNames = true,
 }) => {
-  const [selectedBracket] = useState("main");
   const [bracketSize, setBracketSize] = useState({
     width: 1280,
     height: 720,
@@ -37,7 +40,12 @@ const PlayoffBracketCanvas = ({
     });
   }, [orientation, width, height, matchHeight]);
 
-  if (matches.length === 0) return null;
+  if (!matches || matches.length === 0)
+    return emptyBracketComponent === "" || emptyBracketComponent ? (
+      <>{emptyBracketComponent}</>
+    ) : (
+      "There are no matches to display"
+    );
 
   const allRounds = {
     main: [
@@ -173,13 +181,14 @@ const PlayoffBracketCanvas = ({
                   matchHeight={bracketSize.matchHeight}
                   onSelectMatch={onSelectMatch}
                   onSelectTeam={onSelectTeam}
-                  showFullTeamNames={true}
+                  showFullTeamNames={showFullTeamNames}
                   flipTeams={flipTeams}
                   textColor={textColor}
                   backgroundColor={backgroundColor}
                   popColor={popColor}
                   dateTimeFormatter={dateTimeFormatter}
                   lineColor={lineColor}
+                  displayMatchNumber={displayMatchNumber}
                 />
                 <MatchConnector
                   position={{
