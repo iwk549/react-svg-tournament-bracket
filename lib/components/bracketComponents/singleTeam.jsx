@@ -5,9 +5,9 @@ import {
   getTextX,
   getLineX,
   offsets,
-} from "../utils/bracketUtils";
+} from "../../utils/bracketUtils";
 import CLinkSvg from "./cLinkSvg";
-import { defaultTextColor, defaultPopColor } from "../utils/formats";
+import { defaultTextColor, defaultPopColor } from "../../utils/formats";
 
 const SingleTeam = ({
   match,

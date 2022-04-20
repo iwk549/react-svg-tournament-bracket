@@ -1,10 +1,6 @@
 import React from "react";
-import { getLineX } from "../utils/bracketUtils";
-import {
-  defaultTextColor,
-  defaultBackgroundColor,
-  defaultPopColor,
-} from "../utils/formats";
+import { getLineX } from "../../utils/bracketUtils";
+import { defaultTextColor, defaultBackgroundColor } from "../../utils/formats";
 
 const MatchConnector = ({
   position,
@@ -15,9 +11,7 @@ const MatchConnector = ({
   isFinal,
   isOnlyMatch,
   backgroundColor,
-  textColor,
   lineColor,
-  popColor,
 }) => {
   if (isFinal || isSemiFinal || isOnlyMatch) return null;
   const yStart =

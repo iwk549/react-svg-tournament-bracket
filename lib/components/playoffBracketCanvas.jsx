@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 
-import { separateAndSplit } from "./utils/bracketUtils";
+import { separateAndSplit } from "../utils/bracketUtils";
 import SingleMatch from "./bracketComponents/singleMatch";
 import MatchConnector from "./bracketComponents/matchConnector";
-import { defaultBackgroundColor } from "./utils/formats";
+import { defaultBackgroundColor } from "../utils/formats";
 
 const PlayoffBracketCanvas = ({
   matches,

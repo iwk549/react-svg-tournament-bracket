@@ -2,7 +2,7 @@ import React from "react";
 
 import SingleTeam from "./singleTeam";
 import MatchLink from "./matchLink";
-import { defaultBackgroundColor } from "../utils/formats";
+import { defaultBackgroundColor } from "../../utils/formats";
 
 const SingleMatch = ({
   match,

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { getTextX } from "../utils/bracketUtils";
+import { getTextX } from "../../utils/bracketUtils";
 import CLinkSvg from "./cLinkSvg";
-import { defaultTextColor } from "../utils/formats";
+import { defaultTextColor } from "../../utils/formats";
 
 const MatchLink = ({
   match,

@@ -5,7 +5,7 @@ import {
   defaultBackgroundColor,
   defaultTextColor,
   defaultPopColor,
-} from "../utils/formats";
+} from "../../utils/formats";
 
 const BracketFinal = ({
   match,
