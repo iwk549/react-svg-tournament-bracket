@@ -25,11 +25,9 @@ round should start at 1 and increment by 1. Each subsequent round should have ha
 
 matchNumber should be unique within a round. It will be used to display the matches in order. matchNumber 1 will display directly above matchNumber 2 and it should be expected that the winners of those two matches will play each other in the next round.
 
-| PropName | Description            | Default Value          | Example Values |
-| -------- | ---------------------- | ---------------------- | -------------- |
-| matches  | Array of Match Objects | none, prop is required |
-
-[ {homeTeamName: "Team A", awayTeamName: "Team B", round: 1, matchNumber: 1}]
+| PropName | Description            | Default Value          | Example Values                                                                |
+| -------- | ---------------------- | ---------------------- | ----------------------------------------------------------------------------- |
+| matches  | Array of Match Objects | none, prop is required | [ {homeTeamName: "Team A", awayTeamName: "Team B", round: 1, matchNumber: 1}] |
 
 ## License
 
