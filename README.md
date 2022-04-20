@@ -1,6 +1,6 @@
 # react-svg-tournament-bracket
 
-Customizable balanced tournament brackets for React
+Customizable tournament brackets for React
 
 ## Installation
 
@@ -10,7 +10,7 @@ npm install react-svg-tournament-bracket
 
 ## Usage
 
-Here's an example of basic usage with four teams starting at the semi final round
+Here's an example of basic usage with four teams starting at the semi final round:
 
 ```javascript
 import React from "react";
@@ -42,9 +42,13 @@ const MyBracket = () => {
 };
 ```
 
+Currently this package only correctly displays even brackets (total teams must be an exponentiation of 2). If you need to display an uneven bracket consider using multiple brackets, one for the preliminary round, one for a losers/secondary bracket. If an uneven bracket is still needed then using portrait mode will keep it the most organized.
+
+More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.com/demosoccer?division=618eea7f01f2b6002420a282&option=brackets&teamID=all&matchtype=all)
+
 ## The Match Object
 
-The matches prop must be an array of objects, with the following required properties:
+**The matches prop must be an array of objects, with the following required properties:**
 
 - **homeTeamName**: string
 
@@ -62,7 +66,7 @@ The matches prop must be an array of objects, with the following required proper
 
   matchNumber should be unique within a round. It will be used to display the matches in order. matchNumber 1 will display directly above matchNumber 2 and it should be expected that the winners of those two matches will play each other in the next round.
 
-There are also several optional properties which are used:
+**There are also several optional properties which are used:**
 
 - **dateTime**: any
 
@@ -79,7 +83,7 @@ There are also several optional properties which are used:
 
 - **matchAccepted**: boolean
 
-  if true the winner of the match will display in bold
+  if true the winner of the match (calculated from homeTeamScore vs awayTeamScore with PKs as a tiebreaker) will display in bold
 
 - **homeTeamScore**: integer
 - **awayTeamScore**: integer
@@ -94,29 +98,29 @@ There are also several optional properties which are used:
 - **homeTeamLogo**: string (url location of image)
 - **awayTeamLogo**: string (url location of image)
 
-  if provided will display a square image next to the team name on the bracket
+  if provided will display a square image next to the team name on the bracket. Must be the full path to the image.
 
   ## Props
 
-| PropName              | Description                                                                                                                                                                                                                                                 | Default Value                                              | Example Values                                                                |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| matches               | Array of Match Objects                                                                                                                                                                                                                                      | none, prop is required                                     | [ {homeTeamName: "Team A", awayTeamName: "Team B", round: 1, matchNumber: 1}] |
-| emptyBracketComponent | component or text string that will display when matches is falsy or length is 0. Pass an empty string to display nothing                                                                                                                                    | "There are no matches to display"                          | ""                                                                            |
-| onSelectMatch         | callback function called when clicking the match number or dateTime. Argument passed back is the match object                                                                                                                                               | undefined                                                  | (match) => console.log(match)                                                 |
-| onSelectTeam          | callback function called when clicking an individual team. Arguments passed back are the match and a string 'home' or 'away' to represent which team was clicked                                                                                            | undefined                                                  | (match, team) => console.log(match, team)                                     |
-| orientation           | display orientation of the bracket, either landscape or portrait                                                                                                                                                                                            | "landscape"                                                | "portrait"                                                                    |
-| flipTeams             | boolean, if true the teams will display away team on top                                                                                                                                                                                                    | false                                                      | true                                                                          |
-| backgroundColor       | hex or html color for the bracket background                                                                                                                                                                                                                | "#fff"                                                     | "#831fe0"                                                                     |
-| textColor             | hex or html color for text                                                                                                                                                                                                                                  | "#000"                                                     | "#831fe0"                                                                     |
-| popColor              | hex or html color for "pop" elements of the bracket, such as the box around the final match                                                                                                                                                                 | "831fe0"                                                   | "red"                                                                         |
-| lineColor             | hex or html color for the connecting lines between matches                                                                                                                                                                                                  | "#000"                                                     | "blue"                                                                        |
-| dateTimeFormatter     | function called on the value of match.dateTime to display in between the teams for each match. If undefined no date or time will display                                                                                                                    | undefined                                                  | (dateTime) => new Date(dateTime).toLocaleString()                             |
-| displayMatchNumber    | boolean, will the match number display in between the match. If neither the match number nor the dateTime are displayed the the match is no longer selectable                                                                                               | true                                                       | false                                                                         |
-| showFullTeamNames     | boolean, the bracket will display the full team name if true, if false will display the value of homeTeamAbbreviation or awayTeamAbbreviation, or the first 6 letters of the full team name, capitalized. When hovered over the full team name will display | true                                                       | false                                                                         |
-| width                 | overall width of entire bracket                                                                                                                                                                                                                             | depends on orientation, for landscape: 1280, portrait: 500 | 750                                                                           |
-| height                | overall height of entire bracket                                                                                                                                                                                                                            | 720                                                        | 500                                                                           |
-| matchHeight           | height of each individual match in the bracket. Text size will scale up or down with this height                                                                                                                                                            | 100                                                        | 75                                                                            |
-| matchKeyCreator       | function to pull a key from each match to satisfy React mapping requirements                                                                                                                                                                                | (match) => String(match.round) + String(match.matchNumber) | (match) => match.\_id                                                         |
+| PropName              | Description                                                                                                                                                                                                                                                 | Default Value                                              | Example Values                                    |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------- |
+| matches               | Array of Match Objects                                                                                                                                                                                                                                      | none, prop is required                                     | see basic usage example                           |
+| emptyBracketComponent | component or text string that will display when matches is falsy or length is 0. Pass an empty string to display nothing                                                                                                                                    | "There are no matches to display"                          | ""                                                |
+| onSelectMatch         | callback function called when clicking the match number or dateTime. Argument passed back is the match object                                                                                                                                               | undefined                                                  | (match) => console.log(match)                     |
+| onSelectTeam          | callback function called when clicking an individual team. Arguments passed back are the match and a string 'home' or 'away' to represent which team was clicked                                                                                            | undefined                                                  | (match, team) => console.log(match, team)         |
+| orientation           | display orientation of the bracket, either landscape or portrait                                                                                                                                                                                            | "landscape"                                                | "portrait"                                        |
+| flipTeams             | boolean, if true the teams will display away team on top                                                                                                                                                                                                    | false                                                      | true                                              |
+| backgroundColor       | hex or html color for the bracket background                                                                                                                                                                                                                | "#fff"                                                     | "#831fe0"                                         |
+| textColor             | hex or html color for text                                                                                                                                                                                                                                  | "#000"                                                     | "#831fe0"                                         |
+| popColor              | hex or html color for "pop" elements of the bracket, such as the box around the final match                                                                                                                                                                 | "831fe0"                                                   | "red"                                             |
+| lineColor             | hex or html color for the connecting lines between matches                                                                                                                                                                                                  | "#000"                                                     | "blue"                                            |
+| dateTimeFormatter     | function called on the value of match.dateTime to display in between the teams for each match. If undefined no date or time will display                                                                                                                    | undefined                                                  | (dateTime) => new Date(dateTime).toLocaleString() |
+| displayMatchNumber    | boolean, will the match number display in between the match. If neither the match number nor the dateTime are displayed the the match is no longer selectable                                                                                               | true                                                       | false                                             |
+| showFullTeamNames     | boolean, the bracket will display the full team name if true, if false will display the value of homeTeamAbbreviation or awayTeamAbbreviation, or the first 6 letters of the full team name, capitalized. When hovered over the full team name will display | true                                                       | false                                             |
+| width                 | overall width of entire bracket                                                                                                                                                                                                                             | depends on orientation, for landscape: 1280, portrait: 500 | 750                                               |
+| height                | overall height of entire bracket                                                                                                                                                                                                                            | 720                                                        | 500                                               |
+| matchHeight           | height of each individual match in the bracket. Text size will scale up or down with this height                                                                                                                                                            | 100                                                        | 75                                                |
+| matchKeyCreator       | function to pull a key from each match to satisfy React mapping requirements                                                                                                                                                                                | (match) => String(match.round) + String(match.matchNumber) | (match) => match.\_id                             |
 
 ## License
 
