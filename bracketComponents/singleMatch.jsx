@@ -2,6 +2,7 @@ import React from "react";
 
 import SingleTeam from "./singleTeam";
 import MatchLink from "./matchLink";
+import { defaultBackgroundColor } from "../utils/formats";
 
 const SingleMatch = ({
   match,
@@ -16,7 +17,6 @@ const SingleMatch = ({
   onSelectMatch,
   showFullTeamNames,
   onSelectTeam,
-  isDisabled,
   teamOrder,
   backgroundColor,
   textColor,
@@ -27,16 +27,19 @@ const SingleMatch = ({
   const handleSelectMatch = () => {
     onSelectMatch(match);
   };
+
+  const mappableTeamOrder = teamOrder || ["home", "away"];
+
   return (
     <g transform={`translate(${placement.X}, ${placement.Y})`}>
       <rect
         width={Math.abs(width)}
         height={Math.abs(matchHeight)}
         style={{
-          fill: backgroundColor || "#eeccff",
+          fill: backgroundColor || defaultBackgroundColor,
         }}
       />
-      {teamOrder.map((t, i) => {
+      {mappableTeamOrder.map((t, i) => {
         return (
           <React.Fragment key={t}>
             <SingleTeam
@@ -52,7 +55,6 @@ const SingleMatch = ({
               spectate={spectate}
               showFullTeamNames={showFullTeamNames}
               onSelectTeam={onSelectTeam}
-              isDisabled={isDisabled}
               textColor={textColor}
               popColor={popColor}
               lineColor={lineColor}

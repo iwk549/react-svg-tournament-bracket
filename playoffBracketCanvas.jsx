@@ -1,22 +1,26 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { PropTypes } from "prop-types";
 
 import { separateAndSplit } from "./utils/bracketUtils";
 import SingleMatch from "./bracketComponents/singleMatch";
 import MatchConnector from "./bracketComponents/matchConnector";
-import BracketFinals from "./bracketComponents/bracketFinals";
+import { defaultBackgroundColor } from "./utils/formats";
 
 const PlayoffBracketCanvas = ({
   matches,
   onSelectMatch,
   onSelectTeam,
-  isDisabled,
-  orientation,
+  orientation = "landscape",
   teamOrder,
   backgroundColor,
   textColor,
   popColor,
   lineColor,
   dateTimeFormatter,
+  width,
+  height,
+  matchHeight,
+  matchKeyCreator = (m) => m._id,
 }) => {
   const [selectedBracket] = useState("main");
   const [bracketSize, setBracketSize] = useState({
@@ -27,11 +31,11 @@ const PlayoffBracketCanvas = ({
 
   useEffect(() => {
     setBracketSize({
-      width: orientation === "portrait" ? 500 : 1280,
-      height: 720,
-      matchHeight: orientation === "portrait" ? 75 : 100,
+      width: width || orientation === "portrait" ? 500 : 1280,
+      height: height || 720,
+      matchHeight: matchHeight || orientation === "portrait" ? 75 : 100,
     });
-  }, [orientation]);
+  }, [orientation, width, height, matchHeight]);
 
   if (matches.length === 0) return null;
 
@@ -44,31 +48,31 @@ const PlayoffBracketCanvas = ({
           .sort((a, b) => a - b)
       ),
     ],
-    secondary: [
-      ...new Set(
-        matches
-          .filter(
-            (m) =>
-              m.round > 10 &&
-              m.round !== 99 &&
-              m.round !== 100 &&
-              m.round !== 999
-          )
-          .map((m) => m.round)
-          .sort((a, b) => a - b)
-      ),
-    ],
-    prelim: [
-      ...new Set(
-        matches
-          .filter((m) => m.round === 0)
-          .map((m) => m.round)
-          .sort((a, b) => a - b)
-      ),
-    ],
-    secondFinal: matches.find((m) => m.round === 99),
-    thirdFinal: matches.find((m) => m.round === 100),
-    losersFinal: matches.find((m) => m.round === 999),
+    // secondary: [
+    //   ...new Set(
+    //     matches
+    //       .filter(
+    //         (m) =>
+    //           m.round > 10 &&
+    //           m.round !== 99 &&
+    //           m.round !== 100 &&
+    //           m.round !== 999
+    //       )
+    //       .map((m) => m.round)
+    //       .sort((a, b) => a - b)
+    //   ),
+    // ],
+    // prelim: [
+    //   ...new Set(
+    //     matches
+    //       .filter((m) => m.round === 0)
+    //       .map((m) => m.round)
+    //       .sort((a, b) => a - b)
+    //   ),
+    // ],
+    // secondFinal: matches.find((m) => m.round === 99),
+    // thirdFinal: matches.find((m) => m.round === 100),
+    // losersFinal: matches.find((m) => m.round === 999),
   };
 
   const getRounds = () => {
@@ -103,17 +107,17 @@ const PlayoffBracketCanvas = ({
         width={bracketSize.width}
         id="svg-bracket"
         style={{
-          backgroundColor: backgroundColor || "#e6d2f9",
+          backgroundColor: backgroundColor || defaultBackgroundColor,
           borderRadius: 5,
         }}
       >
-        <BracketFinals
+        {/* <BracketFinals
           allRounds={allRounds}
           bracketSize={bracketSize}
           selectedBracket={selectedBracket}
           onSelectMatch={onSelectMatch}
           showFullTeamNames={true}
-        />
+        /> */}
         {bracket.map((roundMatches, i) => {
           let X = (i * remainingBracketSize.width) / bracket.length;
           return roundMatches.map((m, ii) => {
@@ -155,8 +159,9 @@ const PlayoffBracketCanvas = ({
             const yMatchStart =
               (Y.end - Y.start) / 2 - bracketSize.matchHeight / 2 + Y.start;
             const matchWidth = remainingBracketSize.width / bracket.length;
+
             return (
-              <g key={m._id}>
+              <g key={matchKeyCreator(m)}>
                 <SingleMatch
                   match={m}
                   textAnchor={textAnchor}
@@ -169,7 +174,6 @@ const PlayoffBracketCanvas = ({
                   onSelectMatch={onSelectMatch}
                   onSelectTeam={onSelectTeam}
                   showFullTeamNames={true}
-                  isDisabled={isDisabled}
                   teamOrder={teamOrder}
                   textColor={textColor}
                   backgroundColor={backgroundColor}
@@ -208,6 +212,10 @@ const PlayoffBracketCanvas = ({
   };
 
   return <div>{renderBracket()}</div>;
+};
+
+PlayoffBracketCanvas.propTypes = {
+  matches: PropTypes.array,
 };
 
 export default PlayoffBracketCanvas;

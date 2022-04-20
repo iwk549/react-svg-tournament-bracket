@@ -19,7 +19,6 @@ const SingleTeam = ({
   bracketEnd,
   isSemiFinal,
   isFinal,
-  isDisabled,
   showFullTeamNames,
   onSelectTeam,
   textColor,
@@ -156,9 +155,8 @@ const SingleTeam = ({
         onMouseOut={() => {
           toggleFullTeamName();
         }}
-        disabled={isDisabled}
         boldText={isWinner}
-        clickHandler={() => onSelectTeam(match, team)}
+        clickHandler={onSelectTeam ? () => onSelectTeam(match, team) : null}
       >
         {getLineText()}
       </CLinkSvg>

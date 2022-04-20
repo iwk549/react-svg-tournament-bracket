@@ -6,23 +6,21 @@ const CLinkSvg = ({
   onMouseOver,
   onMouseOut,
   style,
-  disabled,
   clickHandler,
   boldText,
   children,
 }) => {
-  console.log(disabled);
   return (
     <text
       x={x}
       y={y}
-      onClick={disabled ? () => {} : clickHandler}
+      onClick={!clickHandler ? () => {} : clickHandler}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       style={{
         ...style,
         fontWeight: boldText ? "bold" : "regular",
-        cursor: disabled ? "" : "pointer",
+        cursor: clickHandler ? "pointer" : "",
       }}
     >
       {children}
