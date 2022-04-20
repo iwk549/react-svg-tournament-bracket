@@ -11,7 +11,7 @@ const PlayoffBracketCanvas = ({
   onSelectMatch,
   onSelectTeam,
   orientation = "landscape",
-  teamOrder,
+  flipTeams = false,
   backgroundColor,
   textColor,
   popColor,
@@ -174,7 +174,7 @@ const PlayoffBracketCanvas = ({
                   onSelectMatch={onSelectMatch}
                   onSelectTeam={onSelectTeam}
                   showFullTeamNames={true}
-                  teamOrder={teamOrder}
+                  flipTeams={flipTeams}
                   textColor={textColor}
                   backgroundColor={backgroundColor}
                   popColor={popColor}

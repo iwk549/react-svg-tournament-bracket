@@ -17,7 +17,7 @@ const SingleMatch = ({
   onSelectMatch,
   showFullTeamNames,
   onSelectTeam,
-  teamOrder,
+  flipTeams,
   backgroundColor,
   textColor,
   popColor,
@@ -28,7 +28,7 @@ const SingleMatch = ({
     onSelectMatch(match);
   };
 
-  const mappableTeamOrder = teamOrder || ["home", "away"];
+  const teamOrder = flipTeams ? ["away", "home"] : ["home", "away"];
 
   return (
     <g transform={`translate(${placement.X}, ${placement.Y})`}>
@@ -39,7 +39,7 @@ const SingleMatch = ({
           fill: backgroundColor || defaultBackgroundColor,
         }}
       />
-      {mappableTeamOrder.map((t, i) => {
+      {teamOrder.map((t, i) => {
         return (
           <React.Fragment key={t}>
             <SingleTeam
