@@ -1,0 +1,24 @@
+{
+  "name": "react-svg-tournament-bracket",
+  "version": "1.0.0",
+  "description": "Customizable balanced svg tournament brackets for React",
+  "main": "PlayoffBracketCanvas.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iwk549/react-svg-tournament-bracket.git"
+  },
+  "keywords": [
+    "bracket",
+    "tournament",
+    "svg"
+  ],
+  "author": "Ian Kendall",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iwk549/react-svg-tournament-bracket/issues"
+  },
+  "homepage": "https://github.com/iwk549/react-svg-tournament-bracket#readme"
+}
