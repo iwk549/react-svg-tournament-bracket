@@ -1,11 +1,7 @@
 import React from "react";
 
 import SingleMatch from "./singleMatch";
-import {
-  defaultBackgroundColor,
-  defaultTextColor,
-  defaultPopColor,
-} from "../../utils/formats";
+import { defaultTextColor, defaultPopColor } from "../../utils/formats";
 
 const BracketFinal = ({
   match,
