@@ -10,7 +10,7 @@ npm install react-svg-tournament-bracket
 
 ## Usage
 
-## props
+## Props
 
 ## The Match Object
 
@@ -27,14 +27,14 @@ matchNumber should be unique within a round. It will be used to display the matc
 
 | PropName | Description            | Default Value          | Example Values |
 | -------- | ---------------------- | ---------------------- | -------------- |
-| matches  | Array of Match Objects | none, prop is required | ```            |
+| matches  | Array of Match Objects | none, prop is required |
 
 [ {homeTeamName: "Team A", awayTeamName: "Team B", round: 1, matchNumber: 1}]
-
-```
-
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
+
+```
+
 ```
