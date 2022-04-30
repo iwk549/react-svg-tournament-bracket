@@ -25,6 +25,7 @@ const SingleTeam = ({
   popColor,
   lineColor,
 }) => {
+  console.log(match);
   const [showTooltip, setShowTooltip] = useState({ show: false, label: "" });
   const Y = getTeamNameYPlacement(verticalPosition, height);
   const X = getTextX(textAnchor, width);
@@ -157,7 +158,7 @@ const SingleTeam = ({
         boldText={isWinner}
         clickHandler={onSelectTeam ? () => onSelectTeam(match, team) : null}
       >
-        {getLineText()}
+        {match.dummyMatch ? "" : getLineText()}
       </CLinkSvg>
       {renderUnderline()}
       {renderJoinLine()}

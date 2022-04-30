@@ -31,8 +31,14 @@ const MatchLink = ({
       }}
       clickHandler={onSelectMatch}
     >
-      {matchNumber}{" "}
-      {dateTimeFormatter ? dateTimeFormatter(match.dateTime) : null}
+      {match.dummyMatch ? (
+        ""
+      ) : (
+        <>
+          {matchNumber}{" "}
+          {dateTimeFormatter ? dateTimeFormatter(match.dateTime) : null}
+        </>
+      )}
     </CLinkSvg>
   );
 };
