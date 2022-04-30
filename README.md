@@ -2,6 +2,13 @@
 
 Customizable tournament brackets for React
 
+## Release Notes
+
+**1.1.0**
+
+- Added dummyMatch property to Match Object allowing for uneven bracket display (see Complex Examples section).
+- Removed unnecessary connecting lines between matches on larger brackets making for a cleaner look.
+
 ## Installation
 
 ```
@@ -42,7 +49,7 @@ const MyBracket = () => {
 };
 ```
 
-Currently this package only correctly displays even brackets (total teams must be an exponentiation of 2). If you need to display an uneven bracket consider using multiple brackets, one for the preliminary round, one for a losers/secondary bracket. If an uneven bracket is still needed then using portrait mode will keep it the most organized.
+The component can now handle uneven brackets using the dummyMatch property on the Match Object. The length of your matches array should stil be an exponentiation of 2 but set the dummyMatch property to true for matches where there are no teams. These matches will take up the space where the match would go, causing the bracket to display evenly.
 
 More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.com/demosoccer?division=618eea7f01f2b6002420a282&option=brackets&teamID=all&matchtype=all)
 
@@ -100,6 +107,10 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 
   if provided will display a square image next to the team name on the bracket. Must be the full path to the image.
 
+  **dummyMatch**: boolean
+
+  if true then the match will not be displayed but the space will be filled with the background color. Use this property to create uneven brackets by creating placeholder matches.
+
   ## Props
 
 | PropName              | Description                                                                                                                                                                                                                                                 | Default Value                                              | Example Values                                    |
@@ -121,6 +132,63 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 | height                | overall height of entire bracket                                                                                                                                                                                                                            | 720                                                        | 500                                               |
 | matchHeight           | height of each individual match in the bracket. Text size will scale up or down with this height                                                                                                                                                            | 100                                                        | 75                                                |
 | matchKeyCreator       | function to pull a key from each match to satisfy React mapping requirements                                                                                                                                                                                | (match) => String(match.round) + String(match.matchNumber) | (match) => match.\_id                             |
+
+## Complex Examples
+
+**Uneven bracket using dummyMatch property**
+
+This is how to display an uneven bracket with a lead in round. The entire quarter final round (round 1) needs to be included, but all the placeholder matches have the dummyMatch property set to true. The matchNumber property is only used to sort matches within each round, so they can be duplicated in the next round. So here we are able to number the placeholder matches for correct sorting while also keeping more logical match numbering for real matches on the bracket display.
+
+```javascript
+import React from "react";
+import TournamentBracket from "react-svg-tournament-bracket";
+
+const MyBracket = () => {
+  const matches = [
+    {
+      homeTeamName: "Team A",
+      awayTeamName: "Team B",
+      round: 1,
+      matchNumber: 1,
+    },
+    {
+      round: 1,
+      matchNumber: 2,
+      dummyMatch: true,
+    },
+    {
+      round: 1,
+      matchNumber: 3,
+      dummyMatch: true,
+    },
+    {
+      round: 1,
+      matchNumber: 4,
+      dummyMatch: true,
+    },
+    {
+      homeTeamName: "Winner Match 1",
+      awayTeamName: "Team C",
+      round: 2,
+      matchNumber: 2,
+    },
+    {
+      homeTeamName: "Team D",
+      awayTeamName: "Team E",
+      round: 2,
+      matchNumber: 3,
+    },
+    {
+      homeTeamName: "Winner Match 2",
+      awayTeamName: "Winner Match 3",
+      round: 3,
+      matchNumber: 4,
+    },
+  ];
+
+  return <TournamentBracket matches={matches} />;
+};
+```
 
 ## License
 

@@ -37,6 +37,7 @@ export const separateAndSplit = (allRounds, bracket, matches, split) => {
 };
 
 export const getTeamNameYPlacement = (verticalPosition, height) => {
+  // verticalPosition (0 or 1, index of home/away team)
   return verticalPosition === 0 ? 20 : height - 10;
 };
 
