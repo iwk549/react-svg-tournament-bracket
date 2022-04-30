@@ -24,6 +24,8 @@ const SingleMatch = ({
   lineColor,
   dateTimeFormatter,
   displayMatchNumber,
+  roundCount,
+  index,
 }) => {
   const handleSelectMatch = () => {
     onSelectMatch(match);
@@ -58,7 +60,10 @@ const SingleMatch = ({
               onSelectTeam={onSelectTeam}
               textColor={textColor}
               popColor={popColor}
+              backgroundColor={backgroundColor}
               lineColor={lineColor}
+              roundCount={roundCount}
+              index={index}
             />
             {i === 0 && (
               <MatchLink

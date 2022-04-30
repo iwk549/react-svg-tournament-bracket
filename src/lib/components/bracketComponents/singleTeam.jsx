@@ -7,7 +7,11 @@ import {
   offsets,
 } from "../../utils/bracketUtils";
 import CLinkSvg from "./cLinkSvg";
-import { defaultTextColor, defaultPopColor } from "../../utils/formats";
+import {
+  defaultTextColor,
+  defaultPopColor,
+  defaultBackgroundColor,
+} from "../../utils/formats";
 
 const SingleTeam = ({
   match,
@@ -23,15 +27,25 @@ const SingleTeam = ({
   onSelectTeam,
   textColor,
   popColor,
+  backgroundColor,
   lineColor,
+  roundCount,
+  index,
 }) => {
-  console.log(match);
   const [showTooltip, setShowTooltip] = useState({ show: false, label: "" });
   const Y = getTeamNameYPlacement(verticalPosition, height);
   const X = getTextX(textAnchor, width);
 
+  const noConnector =
+    roundCount > 2 &&
+    ((index % 2 === 0 && verticalPosition % 2 === 0) ||
+      (index % 2 === 1 && verticalPosition % 2 === 1)) &&
+    bracketEnd !== "top";
+
   const lineStyle = {
-    stroke: isFinal
+    stroke: match.dummyMatch
+      ? backgroundColor || defaultBackgroundColor
+      : isFinal
       ? popColor || defaultPopColor
       : lineColor || defaultTextColor,
   };
@@ -88,8 +102,24 @@ const SingleTeam = ({
           <line
             x1={width - X}
             x2={width - X}
-            y1={bracketEnd === "middle" ? 0 : 25}
-            y2={bracketEnd === "bottom" ? 0 : height}
+            y1={
+              bracketEnd === "top"
+                ? 25
+                : noConnector
+                ? 0
+                : verticalPosition === 0
+                ? 0
+                : height - 28
+            }
+            y2={
+              bracketEnd === "bottom"
+                ? 25
+                : noConnector
+                ? 0
+                : verticalPosition === 0
+                ? 25
+                : height
+            }
             style={lineStyle}
           />
         )}

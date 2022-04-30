@@ -12,6 +12,9 @@ const MatchConnector = ({
   isOnlyMatch,
   backgroundColor,
   lineColor,
+  isDummy,
+  roundCount,
+  index,
 }) => {
   if (isFinal || isSemiFinal || isOnlyMatch) return null;
   const yStart =
@@ -23,7 +26,18 @@ const MatchConnector = ({
 
   const height = position.Y.blockEnd - position.Y.matchEnd;
 
-  const renderLines = () => {
+  const renderLines = (verticalPosition) => {
+    if (
+      roundCount > 2 &&
+      ((index % 2 === 0 &&
+        verticalPosition === "bottom" &&
+        bracketEnd !== "top") ||
+        (index % 2 === 1 &&
+          verticalPosition === "top" &&
+          bracketEnd !== "bottom"))
+    )
+      return null;
+
     const X = getLineX(textAnchor, width);
     return textAnchor !== "middle" ? (
       <g>
@@ -32,7 +46,11 @@ const MatchConnector = ({
           x2={width - X}
           y1={0}
           y2={height}
-          style={{ stroke: lineColor || defaultTextColor }}
+          style={{
+            stroke: isDummy
+              ? backgroundColor || defaultBackgroundColor
+              : lineColor || defaultTextColor,
+          }}
         />
       </g>
     ) : null;
@@ -46,7 +64,7 @@ const MatchConnector = ({
           height={Math.abs(height)}
           style={{ fill: backgroundColor || defaultBackgroundColor }}
         />
-        {renderLines()}
+        {renderLines("top")}
       </g>
       {bracketEnd === "middle" && !isFinal && (
         <g transform={`translate(${position.X}, ${position.Y.blockStart})`}>
@@ -55,7 +73,7 @@ const MatchConnector = ({
             height={Math.abs(height)}
             style={{ fill: backgroundColor || defaultBackgroundColor }}
           />
-          {renderLines()}
+          {renderLines("bottom")}
         </g>
       )}
     </>

@@ -189,6 +189,8 @@ const PlayoffBracketCanvas = ({
                   dateTimeFormatter={dateTimeFormatter}
                   lineColor={lineColor}
                   displayMatchNumber={displayMatchNumber}
+                  roundCount={roundMatches.length}
+                  index={ii}
                 />
                 <MatchConnector
                   position={{
@@ -211,6 +213,9 @@ const PlayoffBracketCanvas = ({
                   textColor={textColor}
                   popColor={popColor}
                   lineColor={lineColor}
+                  isDummy={m.dummyMatch}
+                  roundCount={roundMatches.length}
+                  index={ii}
                 />
               </g>
             );
