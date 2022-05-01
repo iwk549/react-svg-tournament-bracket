@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 
-import { separateAndSplit } from "../utils/bracketUtils";
+import { separateAndSplit, isExponentOfTwo } from "../utils/bracketUtils";
 import SingleMatch from "./bracketComponents/singleMatch";
 import MatchConnector from "./bracketComponents/matchConnector";
 import { defaultBackgroundColor } from "../utils/formats";
@@ -25,6 +25,7 @@ const PlayoffBracketCanvas = ({
   selectedBracket = "main",
   emptyBracketComponent,
   showFullTeamNames = true,
+  disableStrictBracketSizing,
 }) => {
   const [bracketSize, setBracketSize] = useState({
     width: 1280,
@@ -109,6 +110,9 @@ const PlayoffBracketCanvas = ({
         : 0;
 
     remainingBracketSize.height = remainingBracketSize.height - heightOffset;
+    let lastRoundSize;
+    const toDisableMessage =
+      "To disable this error set the strictBracketSizing prop to false.";
     return (
       <svg
         height={bracketSize.height}
@@ -127,6 +131,21 @@ const PlayoffBracketCanvas = ({
           showFullTeamNames={true}
         /> */}
         {bracket.map((roundMatches, i) => {
+          if (!disableStrictBracketSizing) {
+            if (lastRoundSize) {
+              if (lastRoundSize / 2 !== roundMatches.length)
+                throw new Error(
+                  "The length of each round must be half of the previous round. " +
+                    toDisableMessage
+                );
+            }
+            lastRoundSize = roundMatches.length;
+            if (!isExponentOfTwo(lastRoundSize))
+              throw new Error(
+                "The length of each round must be an exponentiation of two. " +
+                  toDisableMessage
+              );
+          }
           let X = (i * remainingBracketSize.width) / bracket.length;
           return roundMatches.map((m, ii) => {
             const blockStart =

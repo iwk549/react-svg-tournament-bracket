@@ -1,3 +1,7 @@
+export function isExponentOfTwo(n) {
+  return Math.log2(n) % 1 === 0;
+}
+
 export const offsets = { text: 10, lines: 5 };
 
 export const getTextX = (textAnchor, width) => {
