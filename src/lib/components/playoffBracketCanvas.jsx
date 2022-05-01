@@ -26,6 +26,7 @@ const PlayoffBracketCanvas = ({
   emptyBracketComponent,
   showFullTeamNames = true,
   disableStrictBracketSizing,
+  hidePKs,
 }) => {
   const [bracketSize, setBracketSize] = useState({
     width: 1280,
@@ -97,7 +98,8 @@ const PlayoffBracketCanvas = ({
       allRounds,
       selectedBracket,
       matches,
-      orientation === "landscape"
+      orientation === "landscape",
+      disableStrictBracketSizing
     );
 
     let remainingBracketSize = { ...bracketSize };
@@ -110,9 +112,7 @@ const PlayoffBracketCanvas = ({
         : 0;
 
     remainingBracketSize.height = remainingBracketSize.height - heightOffset;
-    let lastRoundSize;
-    const toDisableMessage =
-      "To disable this error set the strictBracketSizing prop to false.";
+
     return (
       <svg
         height={bracketSize.height}
@@ -131,22 +131,8 @@ const PlayoffBracketCanvas = ({
           showFullTeamNames={true}
         /> */}
         {bracket.map((roundMatches, i) => {
-          if (!disableStrictBracketSizing) {
-            if (lastRoundSize) {
-              if (lastRoundSize / 2 !== roundMatches.length)
-                throw new Error(
-                  "The length of each round must be half of the previous round. " +
-                    toDisableMessage
-                );
-            }
-            lastRoundSize = roundMatches.length;
-            if (!isExponentOfTwo(lastRoundSize))
-              throw new Error(
-                "The length of each round must be an exponentiation of two. " +
-                  toDisableMessage
-              );
-          }
           let X = (i * remainingBracketSize.width) / bracket.length;
+
           return roundMatches.map((m, ii) => {
             const blockStart =
               (ii * remainingBracketSize.height) / roundMatches.length +
@@ -210,6 +196,7 @@ const PlayoffBracketCanvas = ({
                   displayMatchNumber={displayMatchNumber}
                   roundCount={roundMatches.length}
                   index={ii}
+                  hidePKs={hidePKs}
                 />
                 <MatchConnector
                   position={{

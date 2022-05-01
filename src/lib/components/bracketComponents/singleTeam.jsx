@@ -31,6 +31,7 @@ const SingleTeam = ({
   lineColor,
   roundCount,
   index,
+  hidePKs,
 }) => {
   const [showTooltip, setShowTooltip] = useState({ show: false, label: "" });
   const Y = getTeamNameYPlacement(verticalPosition, height);
@@ -136,6 +137,10 @@ const SingleTeam = ({
 
   const getLineText = () => {
     const teamName = match[team + "TeamName"];
+    if (!teamName)
+      throw new Error(
+        `The ${team}TeamName property is required on every match unless using the dummyMatch property.`
+      );
     const teamAbbreviation =
       match[team + "TeamAbbreviation"] || teamName.slice(0, 6).toUpperCase();
 
@@ -145,9 +150,10 @@ const SingleTeam = ({
         : teamAbbreviation;
 
     let goals = match.matchComplete
-      ? `${match[team + "TeamScore"]}${
-          match[team + "TeamScore"] === match[otherTeam + "TeamScore"]
-            ? ` (${match[team + "TeamPKs"]})`
+      ? `${match[team + "TeamScore"] || 0}${
+          match[team + "TeamScore"] === match[otherTeam + "TeamScore"] &&
+          !hidePKs
+            ? ` (${match[team + "TeamPKs"] || 0})`
             : ""
         }`
       : "";

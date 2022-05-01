@@ -26,6 +26,7 @@ const SingleMatch = ({
   displayMatchNumber,
   roundCount,
   index,
+  hidePKs,
 }) => {
   const handleSelectMatch = () => {
     onSelectMatch(match);
@@ -64,6 +65,7 @@ const SingleMatch = ({
               lineColor={lineColor}
               roundCount={roundCount}
               index={index}
+              hidePKs={hidePKs}
             />
             {i === 0 && (
               <MatchLink

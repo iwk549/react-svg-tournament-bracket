@@ -2,12 +2,12 @@
 
 Customizable tournament brackets for React
 
-## Release Notes
+## What's New in 1.2.0
 
-**1.1.0**
-
-- Added dummyMatch property to Match Object allowing for uneven bracket display (see Complex Examples section).
-- Removed unnecessary connecting lines between matches on larger brackets making for a cleaner look.
+- Dummy matches on lopsided landscape brackets will no longer take up space if the entire round on that side of the bracket is dummy matches. This will however cause the final to not display in the center of the bracket.
+- hidePKs props allows you to use the home/awayTeamPKs prop on the Match Object as a tiebreaker to bold the winning team but keep it hidden on the bracket display.
+- Added error checking to round lengths to ensure proper display. Can be disabled with disableStrictBracketSizing prop.
+- Added error checking to teamName property on match object
 
 ## Installation
 
@@ -58,12 +58,9 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 **The matches prop must be an array of objects, with the following required properties:**
 
 - **homeTeamName**: string
-
-  the name of the home team
-
 - **awayTeamName**: string
 
-  the name of the away team
+  the name of the each team (required unless dummyMatch is set to true)
 
 - **round**: integer
 
@@ -133,8 +130,61 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 | matchHeight                | height of each individual match in the bracket. Text size will scale up or down with this height                                                                                                                                                                                                                                                                           | 100                                                        | 75                                                |
 | matchKeyCreator            | function to pull a key from each match to satisfy React mapping requirements                                                                                                                                                                                                                                                                                               | (match) => String(match.round) + String(match.matchNumber) | (match) => match.\_id                             |
 | disableStrictBracketSizing | boolean, strict bracket sizing is enabled by default. This means that the number of matches in each round should be an exponentiation of 2, and each round should have half the number of matches as the previous round. It is suggested that you use dummy matches to fill in the gaps to meet this criteria, but the check can be disabled by setting this prop to true. | false                                                      | true                                              |
+| hidePKs                    | boolean, if true the home and away team PKs will not be shown on a complete match which is tied. Use this prop to keep your tiebreaker hidden while still enabling the winning team to display in bold                                                                                                                                                                     | undefined                                                  | true                                              |
 
-## Complex Examples
+## More Complex Examples
+
+**Displaying bracket with score showing**
+
+Use the matchComplete and matchAccepted properties on each Match Object to display the scores on the brackets.
+
+matchComplete = true will cause the score to display next to each team. If the score props is not included then 0 will display.
+
+matchAccepted = true will cause the winning team (based on homeTeamScore vs awayTeamScore, with the PK tiebreaker) to display in bold. This prop can be used without the matchComplete prop to embolden the winning team while not displaying the score.
+
+```javascript
+import React from "react";
+import TournamentBracket from "react-svg-tournament-bracket";
+
+const MyBracket = () => {
+  const matches = [
+    {
+      homeTeamName: "Team A",
+      awayTeamName: "Team B",
+      round: 1,
+      matchNumber: 1,
+      homeTeamScore: 3,
+      awayTeamScore: 2,
+      matchComplete: true,
+      matchAccepted: true,
+      // this match will display the scores with Team A in bold
+    },
+    {
+      homeTeamName: "Team C",
+      awayTeamName: "Team D",
+      round: 1,
+      matchNumber: 2,
+      homeTeamScore: 1,
+      awayTeamScore: 1,
+      homeTeamPKs: 1,
+      awayTeamPKs: 3,
+      matchComplete: true,
+      // this match will display the scores (and the PK tiebreaker) but neither team will be in bold as matchAccepted is not included
+    },
+    {
+      homeTeamName: "Team A",
+      awayTeamName: "Winner Match 3",
+      round: 2,
+      matchNumber: 3,
+      homeTeamScore: 1,
+      awayTeamScore: 2,
+      // this match will not display the score at all as matchComplete is not included
+    },
+  ];
+
+  return <TournamentBracket matches={matches} />;
+};
+```
 
 **Uneven bracket using dummyMatch property**
 
@@ -190,6 +240,24 @@ const MyBracket = () => {
   return <TournamentBracket matches={matches} />;
 };
 ```
+
+## Release Notes
+
+**1.2.0**
+
+- Dummy matches on lopsided landscape brackets will no longer take up space if the entire round on that side of the bracket is dummy matches. This will however cause the final to not display in the center of the bracket.
+- hidePKs props allows you to use the home/awayTeamPKs prop on the Match Object as a tiebreaker to bold the winning team but keep it hidden on the bracket display.
+- Added error checking to round lengths to ensure proper display. Can be disabled with disableStrictBracketSizing prop.
+- Added error checking to teamName property on match object
+
+**1.1.1**
+
+- Package was not built before publishing, changes did not go into effect. Rebuilt package.
+
+**1.1.0**
+
+- Added dummyMatch property to Match Object allowing for uneven bracket display (see Complex Examples section).
+- Removed unnecessary connecting lines between matches on larger brackets making for a cleaner look.
 
 ## License
 

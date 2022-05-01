@@ -19,23 +19,58 @@ export const getLineX = (textAnchor, width) => {
     : width / 2;
 };
 
-export const separateAndSplit = (allRounds, bracket, matches, split) => {
+export const separateAndSplit = (
+  allRounds,
+  bracket,
+  matches,
+  split,
+  disableStrictBracketSizing
+) => {
   let leftMatches = [];
   let rightMatches = [];
   let allMatches = [];
   const roundsToShow = allRounds[bracket];
+  let lastRoundSize;
+  const toDisableMessage =
+    "To disable this error set the strictBracketSizing prop to false.";
   roundsToShow.forEach((r) => {
     const roundMatches = [
       ...matches
         .filter((m) => m.round === r)
         .sort((a, b) => a.matchNumber - b.matchNumber),
     ];
-    allMatches.push(roundMatches);
-    const splitMatches = [...roundMatches];
-    leftMatches.push(splitMatches.splice(0, roundMatches.length / 2));
-    rightMatches.push(splitMatches);
+    if (!disableStrictBracketSizing) {
+      if (lastRoundSize) {
+        if (lastRoundSize / 2 !== roundMatches.length)
+          throw new Error(
+            "The length of each round must be half of the previous round. " +
+              toDisableMessage
+          );
+      }
+      lastRoundSize = roundMatches.length;
+      if (!isExponentOfTwo(lastRoundSize))
+        throw new Error(
+          "The length of each round must be an exponentiation of two. " +
+            toDisableMessage
+        );
+    }
+    if (roundMatches.some((m) => !m.dummyMatch)) {
+      allMatches.push(roundMatches);
+      const splitMatches = [...roundMatches];
+      const lefts = splitMatches.splice(0, roundMatches.length / 2);
+      const rights = splitMatches;
+      leftMatches.push(lefts);
+      rightMatches.push(rights);
+    }
   });
   leftMatches = leftMatches.slice(0, leftMatches.length - 1);
+  [leftMatches, rightMatches].forEach((arr) => {
+    arr.forEach((round, idx) => {
+      if (!round.some((m) => !m.dummyMatch)) {
+        arr.splice(idx, 1);
+      }
+    });
+  });
   if (split) return [...leftMatches, ...rightMatches.reverse()];
   else return allMatches;
 };
