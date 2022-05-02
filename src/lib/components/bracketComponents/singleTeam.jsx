@@ -63,7 +63,7 @@ const SingleTeam = ({
   };
 
   const renderUnderline = () => {
-    const lineY = verticalPosition === 0 ? Y + 5 : Y - height / 5;
+    const lineY = verticalPosition === 0 ? Y + offsets.lines : Y - height / 5;
     return (
       <line
         x1={offsets.lines}
@@ -159,14 +159,23 @@ const SingleTeam = ({
 
   return (
     <g>
-      {/* {highlight && (
+      {highlight && (
         <rect
-          width={width - offsets.text}
-          height={height / 4}
+          width={width - offsets.text - offsets.lines}
+          height={height / 5 - 4}
           rx={5}
-          transform={`translate(${offsets.text / 2}, ${Y})`}
+          style={{
+            fill:
+              highlightColor?.backgroundColor ||
+              defaultHighlight.backgroundColor,
+          }}
+          transform={`translate(${offsets.lines}, ${
+            verticalPosition === 0
+              ? y1 + offsets.pixels - height / 5
+              : y2 + offsets.pixels
+          })`}
         />
-      )} */}
+      )}
       <CLinkSvg
         x={
           X +
@@ -182,7 +191,9 @@ const SingleTeam = ({
         style={{
           textAnchor,
           fontSize: height / 6,
-          fill: textColor || defaultTextColor,
+          fill: highlight
+            ? highlightColor?.color || defaultHighlight.color
+            : textColor || defaultTextColor,
         }}
         onMouseOver={() => {
           toggleFullTeamName();

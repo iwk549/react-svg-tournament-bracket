@@ -2,12 +2,10 @@
 
 Customizable tournament brackets for React
 
-## What's New in 1.2.0
+## What's New in 1.3.0
 
-- Dummy matches on lopsided landscape brackets will no longer take up space if the entire round on that side of the bracket is dummy matches. This will however cause the final to not display in the center of the bracket.
-- hidePKs props allows you to use the home/awayTeamPKs prop on the Match Object as a tiebreaker to bold the winning team but keep it hidden on the bracket display.
-- Added error checking to round lengths to ensure proper display. Can be disabled with disableStrictBracketSizing prop.
-- Added error checking to teamName property on match object
+- The matchHeight property now works as expected to expand the area each match takes up and the size of the text. Recommended values are between 75 - 1000
+- You can now highlight elements of an individual match using the highlight property of the Match Object and the highlightColor prop.
 
 ## Installation
 
@@ -108,6 +106,10 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 
   if true then the match will not be displayed but the space will be filled with the background color. Use this property to create uneven brackets by creating placeholder matches.
 
+  **highlight**: array || string
+
+  acceptable values are "home" "away" and "match". Use this property if you wish to highlight an element in an individual match. The checking used the include method so you can pass this as an array or string. Using "home" and/or "away" will highlight the corresponding team, while using "match" will highlight the link text in between the two teams. These values can be used in any combination. Use the highlightColor prop on the TournamentBracket to pick the colors of the highlighting.
+
   ## Props
 
 | PropName                   | Description                                                                                                                                                                                                                                                                                                                                                                | Default Value                                              | Example Values                                    |
@@ -127,10 +129,11 @@ More examples can be seen at [Ultimate Scoreboard](https://ultimatescoreboard.co
 | showFullTeamNames          | boolean, the bracket will display the full team name if true, if false will display the value of homeTeamAbbreviation or awayTeamAbbreviation, or the first 6 letters of the full team name, capitalized. When hovered over the full team name will display                                                                                                                | true                                                       | false                                             |
 | width                      | overall width of entire bracket                                                                                                                                                                                                                                                                                                                                            | depends on orientation, for landscape: 1280, portrait: 500 | 750                                               |
 | height                     | overall height of entire bracket                                                                                                                                                                                                                                                                                                                                           | 720                                                        | 500                                               |
-| matchHeight                | height of each individual match in the bracket. Text size will scale up or down with this height                                                                                                                                                                                                                                                                           | 100                                                        | 75                                                |
+| matchHeight                | height of each individual match in the bracket. Text size will scale up or down with this height. Although you can set this to any value it is recommended for best display to pick a size between 75 - 1000                                                                                                                                                               | 100                                                        | 75                                                |
 | matchKeyCreator            | function to pull a key from each match to satisfy React mapping requirements                                                                                                                                                                                                                                                                                               | (match) => String(match.round) + String(match.matchNumber) | (match) => match.\_id                             |
 | disableStrictBracketSizing | boolean, strict bracket sizing is enabled by default. This means that the number of matches in each round should be an exponentiation of 2, and each round should have half the number of matches as the previous round. It is suggested that you use dummy matches to fill in the gaps to meet this criteria, but the check can be disabled by setting this prop to true. | false                                                      | true                                              |
 | hidePKs                    | boolean, if true the home and away team PKs will not be shown on a complete match which is tied. Use this prop to keep your tiebreaker hidden while still enabling the winning team to display in bold                                                                                                                                                                     | undefined                                                  | true                                              |
+| highlightColor             | object: {backgroundColor: string, color: string}, used in conjunction with the highlight prop on the Match Object, to highlight elements of an individual match                                                                                                                                                                                                            | {backgroundColor: "#831fe0", color: "fff"}                 | {backgroundColor: "red", color: "white"}          |
 
 ## More Complex Examples
 
@@ -241,7 +244,54 @@ const MyBracket = () => {
 };
 ```
 
+**Using match highlighting**
+
+Elements within an individual match can be highlighted. This could be used to indicate the winning team without using the score and accepted properties, or highlight an individual match.
+
+```javascript
+import React from "react";
+import TournamentBracket from "react-svg-tournament-bracket";
+
+const MyBracket = () => {
+  const matches = [
+    {
+      homeTeamName: "Winner Match 1",
+      awayTeamName: "Team C",
+      round: 1,
+      matchNumber: 1,
+      highlight: ["home", "away"], // both teams will be highlighted
+    },
+    {
+      homeTeamName: "Team D",
+      awayTeamName: "Team E",
+      round: 1,
+      matchNumber: 2,
+      highlight: "home", // only the home team will be highlighted
+    },
+    {
+      homeTeamName: "Winner Match 2",
+      awayTeamName: "Winner Match 3",
+      round: 2,
+      matchNumber: 3,
+      highlight: "match away", // the match link and the away team will be highlighted
+    },
+  ];
+
+  return (
+    <TournamentBracket
+      matches={matches}
+      highlightColor={{ backgroundColor: "red", color: "white" }} // the highlighted elements will display as white text on a red background
+    />
+  );
+};
+```
+
 ## Release Notes
+
+**1.3.0**
+
+- The matchHeight property now works as expected to expand the area each match takes up and the size of the text. Recommended values are between 75 - 1000
+- You can now highlight elements of an individual match using the highlight property of the Match Object and the highlightColor prop.
 
 **1.2.0**
 

@@ -5,7 +5,6 @@ import { defaultTextColor, defaultBackgroundColor } from "../../utils/formats";
 const MatchConnector = ({
   position,
   width,
-  matchHeight,
   bracketEnd,
   textAnchor,
   isSemiFinal,
