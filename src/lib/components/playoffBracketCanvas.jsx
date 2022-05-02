@@ -16,6 +16,7 @@ const PlayoffBracketCanvas = ({
   textColor,
   popColor,
   lineColor,
+  highlightColor,
   dateTimeFormatter,
   displayMatchNumber = true,
   width,
@@ -36,9 +37,9 @@ const PlayoffBracketCanvas = ({
 
   useEffect(() => {
     setBracketSize({
-      width: width || orientation === "portrait" ? 500 : 1280,
+      width: width || (orientation === "portrait" ? 500 : 1280),
       height: height || 720,
-      matchHeight: matchHeight || orientation === "portrait" ? 75 : 100,
+      matchHeight: matchHeight || (orientation === "portrait" ? 75 : 100),
     });
   }, [orientation, width, height, matchHeight]);
 
@@ -166,7 +167,10 @@ const PlayoffBracketCanvas = ({
               isFinal && orientation === "landscape"
                 ? {
                     start: remainingBracketSize.height / 2,
-                    end: remainingBracketSize.height / 2 + 250,
+                    end:
+                      remainingBracketSize.height / 2 -
+                      bracketSize.height / 2 +
+                      100,
                   }
                 : Y;
             const yMatchStart =
@@ -197,6 +201,7 @@ const PlayoffBracketCanvas = ({
                   roundCount={roundMatches.length}
                   index={ii}
                   hidePKs={hidePKs}
+                  highlightColor={highlightColor}
                 />
                 <MatchConnector
                   position={{
@@ -208,6 +213,7 @@ const PlayoffBracketCanvas = ({
                       blockEnd,
                     },
                   }}
+                  matchHeight={matchHeight}
                   width={matchWidth}
                   textAnchor={textAnchor}
                   isSemiFinal={isSemiFinal}

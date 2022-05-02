@@ -2,7 +2,10 @@ import React from "react";
 
 import SingleTeam from "./singleTeam";
 import MatchLink from "./matchLink";
-import { defaultBackgroundColor } from "../../utils/formats";
+import {
+  defaultBackgroundColor,
+  defaultHighlightColor,
+} from "../../utils/formats";
 
 const SingleMatch = ({
   match,
@@ -22,6 +25,7 @@ const SingleMatch = ({
   textColor,
   popColor,
   lineColor,
+  highlightColor,
   dateTimeFormatter,
   displayMatchNumber,
   roundCount,
@@ -31,7 +35,6 @@ const SingleMatch = ({
   const handleSelectMatch = () => {
     onSelectMatch(match);
   };
-
   const teamOrder = flipTeams ? ["away", "home"] : ["home", "away"];
 
   return (
@@ -66,6 +69,7 @@ const SingleMatch = ({
               roundCount={roundCount}
               index={index}
               hidePKs={hidePKs}
+              highlightColor={highlightColor}
             />
             {i === 0 && (
               <MatchLink
@@ -77,6 +81,7 @@ const SingleMatch = ({
                 dateTimeFormatter={dateTimeFormatter}
                 displayMatchNumber={displayMatchNumber}
                 textColor={textColor}
+                highlightColor={highlightColor}
               />
             )}
           </React.Fragment>

@@ -11,6 +11,7 @@ import {
   defaultTextColor,
   defaultPopColor,
   defaultBackgroundColor,
+  defaultHighlight,
 } from "../../utils/formats";
 
 const SingleTeam = ({
@@ -29,6 +30,7 @@ const SingleTeam = ({
   popColor,
   backgroundColor,
   lineColor,
+  highlightColor,
   roundCount,
   index,
   hidePKs,
@@ -36,6 +38,8 @@ const SingleTeam = ({
   const [showTooltip, setShowTooltip] = useState({ show: false, label: "" });
   const Y = getTeamNameYPlacement(verticalPosition, height);
   const X = getTextX(textAnchor, width);
+  const y1 = height / 3 + offsets.lines;
+  const y2 = (height * 3) / 5;
 
   const noConnector =
     roundCount > 2 &&
@@ -59,11 +63,11 @@ const SingleTeam = ({
   };
 
   const renderUnderline = () => {
-    const lineY = verticalPosition === 0 ? Y + 5 : Y - 18;
+    const lineY = verticalPosition === 0 ? Y + 5 : Y - height / 5;
     return (
       <line
         x1={offsets.lines}
-        x2={width - offsets.lines}
+        x2={match.dummyMatch ? offsets.lines : width - offsets.lines}
         y1={lineY}
         y2={lineY}
         style={lineStyle}
@@ -73,54 +77,40 @@ const SingleTeam = ({
 
   const renderJoinLine = () => {
     const X = getLineX(textAnchor, width);
+    const hideTeamLine =
+      match.dummyMatch ||
+      noConnector ||
+      (bracketEnd === "top" && verticalPosition === 0) ||
+      (bracketEnd === "bottom" && verticalPosition === 1);
+    if (hideTeamLine) return null;
     return textAnchor === "middle" ? (
       <g>
         <line
           x1={offsets.lines}
           x2={offsets.lines}
-          y1={25}
-          y2={height - 28}
+          y1={y1}
+          y2={y2}
           style={lineStyle}
         />
         <line
           x1={width - offsets.lines}
           x2={width - offsets.lines}
-          y1={25}
-          y2={height - 28}
+          y1={y1}
+          y2={y2}
           style={lineStyle}
         />
       </g>
     ) : (
       <g>
-        <line
-          x1={width - X}
-          x2={width - X}
-          y1={25}
-          y2={height - 28}
-          style={lineStyle}
-        />
+        {/* this is for the line connecting the two team horizontal lines */}
+        <line x1={width - X} x2={width - X} y1={y1} y2={y2} style={lineStyle} />
+        {/* this is for the line next to the team name */}
         {!isSemiFinal && !isFinal && (
           <line
             x1={width - X}
             x2={width - X}
-            y1={
-              bracketEnd === "top"
-                ? 25
-                : noConnector
-                ? 0
-                : verticalPosition === 0
-                ? 0
-                : height - 28
-            }
-            y2={
-              bracketEnd === "bottom"
-                ? 25
-                : noConnector
-                ? 0
-                : verticalPosition === 0
-                ? 25
-                : height
-            }
+            y1={verticalPosition === 0 ? 0 : y2}
+            y2={verticalPosition === 0 ? y1 : height}
             style={lineStyle}
           />
         )}
@@ -165,21 +155,30 @@ const SingleTeam = ({
   };
 
   const hasLogo = match[team + "TeamLogo"];
+  const highlight = match.highlight?.includes(team);
 
   return (
     <g>
+      {/* {highlight && (
+        <rect
+          width={width - offsets.text}
+          height={height / 4}
+          rx={5}
+          transform={`translate(${offsets.text / 2}, ${Y})`}
+        />
+      )} */}
       <CLinkSvg
         x={
           X +
           (hasLogo
             ? textAnchor === "start"
-              ? 25
+              ? height / 4
               : textAnchor === "end"
-              ? -25
+              ? -(height / 4)
               : 0
             : 0)
         }
-        y={Y}
+        y={verticalPosition === 0 ? y1 - height / 20 : Y - height / 20}
         style={{
           textAnchor,
           fontSize: height / 6,
@@ -202,22 +201,22 @@ const SingleTeam = ({
         <image
           href={match[team + "TeamLogo"]}
           x={
-            textAnchor === "middle"
+            textAnchor === "middle" || textAnchor === "start"
               ? offsets.text
-              : X + (hasLogo ? (textAnchor === "start" ? 0 : -20) : 0)
+              : width - height / 5 - offsets.text
           }
-          y={Y - 17 + verticalPosition}
-          width={20}
-          height={20}
+          y={verticalPosition === 0 ? y1 - height / 5 : y2}
+          width={height / 5}
+          height={height / 5}
         />
       ) : null}
       {hasLogo && textAnchor === "middle" && (
         <image
           href={match[team + "TeamLogo"]}
-          x={width - 28}
-          y={Y - 17 + verticalPosition}
-          width={20}
-          height={20}
+          x={width - height / 5 - offsets.text}
+          y={verticalPosition === 0 ? y1 - height / 5 : y2}
+          width={height / 5}
+          height={height / 5}
         />
       )}
     </g>

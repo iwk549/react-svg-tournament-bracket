@@ -77,7 +77,7 @@ export const separateAndSplit = (
 
 export const getTeamNameYPlacement = (verticalPosition, height) => {
   // verticalPosition (0 or 1, index of home/away team)
-  return verticalPosition === 0 ? 20 : height - 10;
+  return verticalPosition === 0 ? height / 3 : (height * 4) / 5;
 };
 
 export const matchHeight = 100;

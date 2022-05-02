@@ -28,10 +28,10 @@ const CLinkSvg = ({
       onMouseOver={raiseMouseOver}
       onMouseOut={raiseMouseOut}
       style={{
-        ...style,
         fontWeight: boldText ? "bold" : "regular",
         cursor: clickHandler ? "pointer" : "",
         textDecoration: mouseIsOver ? "underline" : "",
+        ...style,
       }}
     >
       {children}

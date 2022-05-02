@@ -5,6 +5,7 @@ import { defaultTextColor, defaultBackgroundColor } from "../../utils/formats";
 const MatchConnector = ({
   position,
   width,
+  matchHeight,
   bracketEnd,
   textAnchor,
   isSemiFinal,
@@ -17,24 +18,24 @@ const MatchConnector = ({
   index,
 }) => {
   if (isFinal || isSemiFinal || isOnlyMatch) return null;
+
+  const height = position.Y.blockEnd - position.Y.matchEnd;
   const yStart =
     bracketEnd === "top"
       ? position.Y.matchEnd
       : bracketEnd === "bottom"
       ? position.Y.blockStart
       : position.Y.matchEnd;
-
-  const height = position.Y.blockEnd - position.Y.matchEnd;
-
   const renderLines = (verticalPosition) => {
     if (
-      roundCount > 2 &&
-      ((index % 2 === 0 &&
-        verticalPosition === "bottom" &&
-        bracketEnd !== "top") ||
-        (index % 2 === 1 &&
-          verticalPosition === "top" &&
-          bracketEnd !== "bottom"))
+      (roundCount > 2 &&
+        ((index % 2 === 0 &&
+          verticalPosition === "bottom" &&
+          bracketEnd !== "top") ||
+          (index % 2 === 1 &&
+            verticalPosition === "top" &&
+            bracketEnd !== "bottom"))) ||
+      isDummy
     )
       return null;
 
