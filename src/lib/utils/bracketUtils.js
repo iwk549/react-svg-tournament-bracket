@@ -83,5 +83,6 @@ export const getTeamNameYPlacement = (verticalPosition, height) => {
 export const matchHeight = 100;
 
 export const getFinalRound = (bracket) => {
+  if (bracket.length === 0) return 0;
   return Math.max(...bracket.map((m) => m.round));
 };
