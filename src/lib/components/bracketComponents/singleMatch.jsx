@@ -38,7 +38,10 @@ const SingleMatch = ({
   const teamOrder = flipTeams ? ["away", "home"] : ["home", "away"];
 
   return (
-    <g transform={`translate(${placement.X}, ${placement.Y})`}>
+    <g
+      transform={`translate(${placement.X}, ${placement.Y})`}
+      data-testid="single-match"
+    >
       <rect
         width={Math.abs(width)}
         height={Math.abs(matchHeight)}

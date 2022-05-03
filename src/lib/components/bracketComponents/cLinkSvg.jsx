@@ -9,6 +9,7 @@ const CLinkSvg = ({
   clickHandler,
   boldText,
   children,
+  testID,
 }) => {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const raiseMouseOver = () => {
@@ -33,6 +34,7 @@ const CLinkSvg = ({
         textDecoration: mouseIsOver ? "underline" : "",
         ...style,
       }}
+      data-testid={testID}
     >
       {children}
     </text>

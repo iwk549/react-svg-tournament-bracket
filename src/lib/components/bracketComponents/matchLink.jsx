@@ -56,6 +56,7 @@ const MatchLink = ({
             : textColor || defaultTextColor,
         }}
         clickHandler={onSelectMatch}
+        testID="match-link-text"
       >
         {match.dummyMatch ? (
           ""

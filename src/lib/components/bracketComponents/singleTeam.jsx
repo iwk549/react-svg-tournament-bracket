@@ -158,7 +158,7 @@ const SingleTeam = ({
   const highlight = match.highlight?.includes(team);
 
   return (
-    <g>
+    <g data-testid="single-team">
       {highlight && (
         <rect
           width={width - offsets.text - offsets.lines}
@@ -174,6 +174,7 @@ const SingleTeam = ({
               ? y1 + offsets.pixels - height / 5
               : y2 + offsets.pixels
           })`}
+          data-testid="team-highlight"
         />
       )}
       <CLinkSvg
@@ -203,6 +204,7 @@ const SingleTeam = ({
         }}
         boldText={isWinner}
         clickHandler={onSelectTeam ? () => onSelectTeam(match, team) : null}
+        testID="team-name-text"
       >
         {match.dummyMatch ? "" : getLineText()}
       </CLinkSvg>

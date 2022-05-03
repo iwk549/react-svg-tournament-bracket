@@ -123,6 +123,7 @@ const PlayoffBracketCanvas = ({
           backgroundColor: backgroundColor || defaultBackgroundColor,
           borderRadius: 5,
         }}
+        data-testid="bracket"
       >
         {/* <BracketFinals
           allRounds={allRounds}
