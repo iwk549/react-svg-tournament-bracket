@@ -15,14 +15,14 @@ npm install react-svg-tournament-bracket
 
 ## Usage
 
-Here's an example of basic usage with four teams starting at the semi final round:
+Here's an example of basic usage with eight teams starting at the quarter final round:
 
 ```javascript
 import React from "react";
 import TournamentBracket from "react-svg-tournament-bracket";
 
 const MyBracket = () => {
-  const matches = [
+  matches = [
     {
       homeTeamName: "Team A",
       awayTeamName: "Team B",
@@ -36,16 +36,42 @@ const MyBracket = () => {
       matchNumber: 2,
     },
     {
+      homeTeamName: "Team E",
+      awayTeamName: "Team F",
+      round: 1,
+      matchNumber: 3,
+    },
+    {
+      homeTeamName: "Team G",
+      awayTeamName: "Team H",
+      round: 1,
+      matchNumber: 4,
+    },
+    {
       homeTeamName: "Winner Match 1",
       awayTeamName: "Winner Match 2",
       round: 2,
-      matchNumber: 3,
+      matchNumber: 5,
+    },
+    {
+      homeTeamName: "Winner Match 3",
+      awayTeamName: "Winner Match 4",
+      round: 2,
+      matchNumber: 6,
+    },
+    {
+      homeTeamName: "Winner Match 5",
+      awayTeamName: "Winner Match 6",
+      round: 3,
+      matchNumber: 7,
     },
   ];
 
   return <TournamentBracket matches={matches} />;
 };
 ```
+
+![Example1](/screenshots/react-svg-tournament-bracket-1.png)
 
 The component can now handle uneven brackets using the dummyMatch property on the Match Object. The length of your matches array should stil be an exponentiation of 2 but set the dummyMatch property to true for matches where there are no teams. These matches will take up the space where the match would go, causing the bracket to display evenly.
 
