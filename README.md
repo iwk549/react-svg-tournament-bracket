@@ -202,7 +202,7 @@ const MyBracket = () => {
     },
     {
       homeTeamName: "Team A",
-      awayTeamName: "Winner Match 3",
+      awayTeamName: "Team D",
       round: 2,
       matchNumber: 3,
       homeTeamScore: 1,
@@ -211,9 +211,17 @@ const MyBracket = () => {
     },
   ];
 
-  return <TournamentBracket matches={matches} />;
+  return (
+    <TournamentBracket
+      matches={matches}
+      backgroundColor="#eeccff"
+      popColor="blue"
+    />
+  );
 };
 ```
+
+![Example2](/screenshots/react-svg-tournament-bracket-2.png)
 
 **Uneven bracket using dummyMatch property**
 
@@ -266,9 +274,17 @@ const MyBracket = () => {
     },
   ];
 
-  return <TournamentBracket matches={matches} />;
+  return (
+    <TournamentBracket
+      matches={matches}
+      backgroundColor="#eeccff"
+      popColor="blue"
+    />
+  );
 };
 ```
+
+![Example3](/screenshots/react-svg-tournament-bracket-3.png)
 
 **Using match highlighting**
 
@@ -306,11 +322,15 @@ const MyBracket = () => {
   return (
     <TournamentBracket
       matches={matches}
+      backgroundColor="#eeccff"
+      popColor="blue"
       highlightColor={{ backgroundColor: "red", color: "white" }} // the highlighted elements will display as white text on a red background
     />
   );
 };
 ```
+
+![Example4](/screenshots/react-svg-tournament-bracket-4.png)
 
 ## Release Notes
 
