@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { PropTypes } from "prop-types";
 
-import { separateAndSplit } from "../utils/bracketUtils";
+import { offsets, separateAndSplit } from "../utils/bracketUtils";
 import SingleMatch from "./bracketComponents/singleMatch";
 import MatchConnector from "./bracketComponents/matchConnector";
 import { defaultBackgroundColor } from "../utils/formats";
+import BracketFinal from "./bracketComponents/bracketFinal";
 
 const PlayoffBracketCanvas = ({
   matches,
@@ -28,6 +29,7 @@ const PlayoffBracketCanvas = ({
   showFullTeamNames = true,
   disableStrictBracketSizing,
   hidePKs,
+  secondaryFinal,
 }) => {
   const [bracketSize, setBracketSize] = useState({
     width: 1280,
@@ -59,31 +61,6 @@ const PlayoffBracketCanvas = ({
           .sort((a, b) => a - b)
       ),
     ],
-    // secondary: [
-    //   ...new Set(
-    //     matches
-    //       .filter(
-    //         (m) =>
-    //           m.round > 10 &&
-    //           m.round !== 99 &&
-    //           m.round !== 100 &&
-    //           m.round !== 999
-    //       )
-    //       .map((m) => m.round)
-    //       .sort((a, b) => a - b)
-    //   ),
-    // ],
-    // prelim: [
-    //   ...new Set(
-    //     matches
-    //       .filter((m) => m.round === 0)
-    //       .map((m) => m.round)
-    //       .sort((a, b) => a - b)
-    //   ),
-    // ],
-    // secondFinal: matches.find((m) => m.round === 99),
-    // thirdFinal: matches.find((m) => m.round === 100),
-    // losersFinal: matches.find((m) => m.round === 999),
   };
 
   const getRounds = () => {
@@ -125,13 +102,24 @@ const PlayoffBracketCanvas = ({
         }}
         data-testid="bracket"
       >
-        {/* <BracketFinals
-          allRounds={allRounds}
-          bracketSize={bracketSize}
-          selectedBracket={selectedBracket}
-          onSelectMatch={onSelectMatch}
-          showFullTeamNames={true}
-        /> */}
+        {secondaryFinal && (
+          <BracketFinal
+            match={secondaryFinal}
+            width={bracketSize.width / 3}
+            placement={{
+              X:
+                orientation === "portrait"
+                  ? (bracketSize.width * 2) / 3 - offsets.text
+                  : bracketSize.width / 3,
+              Y: offsets.text * 3,
+            }}
+            bracketSize={bracketSize}
+            textColor={textColor}
+            popColor={popColor}
+            backgroundColor={backgroundColor}
+            showFullTeamNames={showFullTeamNames}
+          />
+        )}
         {bracket.map((roundMatches, i) => {
           let X = (i * remainingBracketSize.width) / bracket.length;
 

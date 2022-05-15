@@ -7,14 +7,15 @@ const BracketFinal = ({
   match,
   bracketSize,
   placement,
-  header,
   width,
   onSelectMatch,
   textColor,
   popColor,
+  backgroundColor,
   showFullTeamNames,
 }) => {
   const style = { stroke: popColor || defaultPopColor, strokeWidth: 2 };
+
   return (
     <g>
       <text
@@ -27,7 +28,7 @@ const BracketFinal = ({
           fill: textColor || defaultTextColor,
         }}
       >
-        {header}
+        {match.title}
       </text>
       <SingleMatch
         match={match}
@@ -40,6 +41,9 @@ const BracketFinal = ({
         matchHeight={bracketSize.matchHeight}
         onSelectMatch={onSelectMatch}
         showFullTeamNames={showFullTeamNames}
+        textColor={textColor}
+        popColor={popColor}
+        backgroundColor={backgroundColor}
       />
       {/* top */}
       <line
